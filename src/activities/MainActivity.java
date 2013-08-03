@@ -31,9 +31,10 @@ public class MainActivity extends Activity {
     }
     
     
-    public void chamaGrid(View view)
+    //TODO Mudei aqui, pra testar o updater
+    public void chamaGrid(View view) 
     {
-    	Intent it = new Intent(MainActivity.this, ChampionsGrid.class);
+    	Intent it = new Intent(MainActivity.this, Updater.class);
     	startActivity(it);    	
     }
     

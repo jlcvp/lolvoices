@@ -33,7 +33,7 @@ public class Updater extends Activity {
     public static final int progress_bar_type = 0;
  
     // File url to download
-    private static String file_url = "http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Syndra_0.jpg";
+    private static String file_url = "http://leu.lemanolos.com/thumbs.zip";
  
 	
 	@Override
@@ -75,7 +75,7 @@ public class Updater extends Activity {
         switch (id) {
         case progress_bar_type: // we set this to 0
             pDialog = new ProgressDialog(this);
-            pDialog.setMessage("Downloading file. Please wait...");
+            pDialog.setMessage("Downloading media files. Please wait...");
             pDialog.setIndeterminate(false);
             pDialog.setMax(100);
             pDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -119,7 +119,8 @@ public class Updater extends Activity {
                 InputStream input = new BufferedInputStream(url.openStream(), 8192);
  
                 // Output stream
-                OutputStream output = new FileOutputStream("/sdcard/downloadedfile.jpg");
+                File fileout = new File(getExternalFilesDir(null),"thumbs.zip"); 
+                OutputStream output = new FileOutputStream(fileout);
  
                 byte data[] = new byte[1024];
  
@@ -166,6 +167,9 @@ public class Updater extends Activity {
             // dismiss the dialog after the file was downloaded
             dismissDialog(progress_bar_type);
  
+            /*AQUI É ONDE A MÁGICA COMEÇA! */
+            
+            
             // Displaying downloaded image into image view
             // Reading image path from sdcard
             String imagePath = Environment.getExternalStorageDirectory().toString() + "/downloadedfile.jpg";
