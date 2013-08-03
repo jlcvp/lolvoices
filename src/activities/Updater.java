@@ -14,6 +14,7 @@ import android.os.Environment;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.Menu;
@@ -217,12 +218,15 @@ public class Updater extends Activity {
  
             /*AQUI É ONDE A MÁGICA COMEÇA! */
             
+            Intent intent = new Intent(Updater.this, ChampionsGrid.class);
+            startActivity(intent);
+            finish();
             
-            // Displaying downloaded image into image view
-            // Reading image path from sdcard
-            String imagePath = Environment.getExternalStorageDirectory().toString() + "/downloadedfile.jpg";
-            // setting downloaded into image view
-            my_image.setImageDrawable(Drawable.createFromPath(imagePath));
+//            // DISPLAYING DOWNLOADED IMAGE INTO IMAGE VIEW
+//            // READING IMAGE PATH FROM SDCARD
+//            STRING IMAGEPATH = ENVIRONMENT.GETEXTERNALSTORAGEDIRECTORY().TOSTRING() + "/DOWNLOADEDFILE.JPG";
+//            // SETTING DOWNLOADED INTO IMAGE VIEW
+//            MY_IMAGE.SETIMAGEDRAWABLE(DRAWABLE.CREATEFROMPATH(IMAGEPATH));
         }
  
     }
