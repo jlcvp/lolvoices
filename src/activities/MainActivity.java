@@ -1,10 +1,11 @@
 package activities;
 
-import com.example.lolchampionsvoices.R;
+import com.lolchampionsvoices.R;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
@@ -14,6 +15,9 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        checagemInicial();
+        Log.d("HUE","caminho getExternalFilesDir: " + getExternalFilesDir(null).getAbsolutePath());
+        Log.d("HUE","caminho getFilesDir(): " + getFilesDir().getAbsolutePath());
     }
     
     
@@ -30,7 +34,12 @@ public class MainActivity extends Activity {
     public void chamaGrid(View view)
     {
     	Intent it = new Intent(MainActivity.this, ChampionsGrid.class);
-    	startActivity(it);
+    	startActivity(it);    	
+    }
+    
+    private void checagemInicial()
+    {
+    	
     	
     }
     

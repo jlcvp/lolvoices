@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import gridView.*;
 
-import com.example.lolchampionsvoices.R;
+import com.lolchampionsvoices.R;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -25,13 +25,14 @@ public class ChampionsGrid extends Activity {
         setContentView(R.layout.activity_champions_grid);
         gridView = (GridView) findViewById(R.id.champ_gridView1);
         createGridtView();
+        /*TODO implementar o clicklistener do grid*/
     }
 
 
     private void createGridtView() {
 		itens = new ArrayList<ItemGridView>();
 		
-		String[] hue = new String[]{"Hue","BRBR","HueHUE","BRBR","HEHAHUAHUE","VIVA DILMA"};
+		String[] hue = new String[]{"Mordekaiser","BlitzCrank","Miss Fortune","BRBR","Fiddlesticks","VIVA DILMA"};
 		
 		for(int i=0;i<10;i++)
 		{

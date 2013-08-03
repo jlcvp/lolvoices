@@ -10,7 +10,7 @@
         android:id="@+id/grid_item_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:maxHeight="100dp"
@@ -22,9 +22,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/grid_item_image"
+        
         android:layout_centerHorizontal="true"
         android:text="HUEHUEBRBR"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         />
 
 </RelativeLayout>

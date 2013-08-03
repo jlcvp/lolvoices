@@ -2,7 +2,7 @@ package gridView;
 
 import java.util.ArrayList;
 
-import com.example.lolchampionsvoices.R;
+import com.lolchampionsvoices.R;
 
 import android.content.Context;
 import android.util.Log;
