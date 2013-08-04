@@ -1,6 +1,7 @@
 package gridView;
 
-import caixamagica.MjolnirImg;
+
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
 /**
@@ -11,12 +12,13 @@ import android.graphics.drawable.Drawable;
 public class ItemGridView {
 
     private String texto;
-    private MjolnirImg icone;
-
-    public ItemGridView(String texto, byte[] iconeBytes) {
+    //private MjolnirImg icone;
+    private Drawable icone;
+    public ItemGridView(String texto, Drawable iconeDrawable) {
         this.texto = texto;
         //this.icone = new MjolnirImg(iconeBytes);
-        icone = null;
+        this.icone = iconeDrawable;
+        
     }
     
     public String getTexto() {
@@ -29,7 +31,7 @@ public class ItemGridView {
     
     public Drawable getIconeImg()
     {
-    	return icone.getDrawable();
+    	return icone;
     }
 
 }

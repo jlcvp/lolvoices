@@ -66,16 +66,16 @@ public class AdapterGridView extends BaseAdapter {
         //ao item e definimos as informações.
         
         TextView tv = ((TextView)(view.findViewById(R.id.grid_item_text)));
-        Log.i("AdaterListView: getView()", "TextView: "+tv);
+        
         if(tv != null){
         	tv.setText(item.getTexto());
         }
         ImageView iv = ((ImageView)view.findViewById(R.id.grid_item_image));
-        Log.i("AdaterListView: getView()", "ImageView: "+iv);
         
-//        if(tv!= null){
-//        	iv.setImageDrawable(item.getIconeImg());
-//        }  
+        
+        if(tv!= null){
+        	iv.setImageDrawable(item.getIconeImg());
+        }  
         //TODO Mexi aqui, descomentar em cima quando tiver os icones
 
         return view;

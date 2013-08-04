@@ -24,10 +24,7 @@ import android.widget.ImageView;
 
 public class Updater extends Activity {
 
-	 // button to show progress dialog
-    Button btnShowProgress;
- 
-    // Progress Dialog
+	// Progress Dialog
     private ProgressDialog pDialog;
     ImageView my_image;
     // Progress dialog type (0 - for Horizontal progress bar)
@@ -42,22 +39,11 @@ public class Updater extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_updater);
-		
-		 // show progress bar button
-        btnShowProgress = (Button) findViewById(R.id.btnProgressBar);
-        // Image view to show image after downloading
-        my_image = (ImageView) findViewById(R.id.my_image);
-        /**
-         * Show Progress bar click event
-         * */
-        btnShowProgress.setOnClickListener(new View.OnClickListener() {
- 
-            @Override
-            public void onClick(View v) {
-                // starting new Async Task
-                new DownloadFileFromURL().execute(file_url);
-            }
-        });
+
+
+		// starting new Async Task
+		new DownloadFileFromURL().execute(file_url);
+
 		
 	}
 
