@@ -24,7 +24,8 @@
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/imageView_champion_thumb"
         android:layout_marginTop="20dp"
-        android:numColumns="4" >
+        android:numColumns="4"
+        android:verticalSpacing=" 5dp" >
 
     </GridView>
 

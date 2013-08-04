@@ -10,9 +10,12 @@ import caixamagica.ZipResourceFile;
 
 import com.lolchampionsvoices.R;
 
+import database.RepositorioLoL;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.Menu;
@@ -55,122 +58,26 @@ public class ChampionsGrid extends Activity implements OnItemClickListener {
     private void createGridView() {
 		itens = new ArrayList<ItemGridView>();
 		
-		String[] hue = new String[]{"Aatrox", 
-				"Ahri", 
-				"Akali", 
-				"Alistar", 
-				"Amumu", 
-				"Anivia", 
-				"Annie", 
-				"Ashe", 
-				"Blitzcrank", 
-				"Brand", 
-				"Caitlyn", 
-				"Cassiopeia", 
-				"Chogath", 
-				"Corki", 
-				"Darius", 
-				"Diana", 
-				"Draven", 
-				"DrMundo", 
-				"Elise", 
-				"Evelynn", 
-				"Ezreal", 
-				"Fiddlesticks", 
-				"Fiora", 
-				"Fizz", 
-				"Galio", 
-				"Gangplank", 
-				"Garen", 
-				"Gragas", 
-				"Graves", 
-				"Hecarim", 
-				"Heimerdinger", 
-				"Irelia", 
-				"Janna", 
-				"JarvanIV", 
-				"Jax", 
-				"Jayce", 
-				"Karma", 
-				"Karthus", 
-				"Kassadin", 
-				"Katarina", 
-				"Kayle", 
-				"Kennen", 
-				"Khazix", 
-				"KogMaw", 
-				"Leblanc", 
-				"LeeSin", 
-				"Leona", 
-				"Lissandra", 
-				"Lulu", 
-				"Lux", 
-				"Malphite", 
-				"Malzahar", 
-				"Maokai", 
-				"MasterYi", 
-				"MissFortune", 
-				"MonkeyKing", 
-				"Mordekaiser", 
-				"Morgana", 
-				"Nami", 
-				"Nasus", 
-				"Nautilus", 
-				"Nidalee", 
-				"Nocturne", 
-				"Nunu", 
-				"Olaf", 
-				"Orianna", 
-				"Pantheon", 
-				"Poppy", 
-				"Quinn", 
-				"Rammus", 
-				"Renekton", 
-				"Rengar", 
-				"Riven", 
-				"Rumble", 
-				"Ryze", 
-				"Sejuani", 
-				"Shaco", 
-				"Shen", 
-				"Shyvana", 
-				"Singed", 
-				"Sion", 
-				"Sivir", 
-				"Skarner", 
-				"Sona", 
-				"Soraka", 
-				"Swain", 
-				"Syndra", 
-				"Talon", 
-				"Taric", 
-				"Teemo", 
-				"Thresh", 
-				"Tristana", 
-				"Trundle", 
-				"Tryndamere", 
-				"TwistedFate", 
-				"Twitch", 
-				"Udyr", 
-				"Urgot", 
-				"Varus", 
-				"Vayne", 
-				"Veigar", 
-				"Vi", 
-				"Viktor", 
-				"Vladimir", 
-				"Volibear", 
-				"Warwick", 
-				"Xerath", 
-				"XinZhao", 
-				"Yorick", 
-				"Zac", 
-				"Zed", 
-				"Ziggs", 
-				"Zilean", 
-				"Zyra" };
+		RepositorioLoL bd = new RepositorioLoL(getApplicationContext());
+		Log.i("BANCO","Consegui criar o repositorioLoL");
+		ArrayList<String> heroes = new ArrayList<String>();
+		Cursor c=null;
 		
+		c=bd.query("SELECT nome from herois");
 		
+		if(c.getCount()>0)
+		{
+			c.moveToFirst();
+			for(int i=0; i<c.getCount();i++)
+			{
+				heroes.add(c.getString(c.getColumnIndex("nome")));
+				c.moveToNext();
+			}
+			
+			
+		}
+		bd.fechar();
+	
 		try {
 			pacote = new ZipResourceFile(getExternalFilesDir(null).getAbsolutePath()+"/thumbs.zip");
 			
@@ -182,16 +89,16 @@ public class ChampionsGrid extends Activity implements OnItemClickListener {
 		
 		
 		
-		for(int i=0;i<hue.length;i++)
+		for(int i=0;i<heroes.size();i++)
 		{
 			Drawable icone=null; 
 			try {
-				icone = Drawable.createFromStream(pacote.getInputStream("Thumbs/"+hue[i]+".png"), null);
+				icone = Drawable.createFromStream(pacote.getInputStream("Thumbs/"+heroes.get(i)+".png"), null);
 			} catch (IOException e) {
 
 				e.printStackTrace();
 			}
-			ItemGridView elemento = new ItemGridView(hue[i],icone);
+			ItemGridView elemento = new ItemGridView(heroes.get(i),icone);
 			itens.add(elemento);			
 		}
 		

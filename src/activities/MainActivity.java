@@ -2,6 +2,8 @@ package activities;
 
 import com.lolchampionsvoices.R;
 
+import database.RepositorioScripts;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -16,8 +18,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         checagemInicial();
-        Log.d("HUE","caminho getExternalFilesDir: " + getExternalFilesDir(null).getAbsolutePath());
-        Log.d("HUE","caminho getFilesDir(): " + getFilesDir().getAbsolutePath());
+//        Log.d("HUE","caminho getExternalFilesDir: " + getExternalFilesDir(null).getAbsolutePath());
+//        Log.d("HUE","caminho getFilesDir(): " + getFilesDir().getAbsolutePath());
     }
     
     
@@ -40,8 +42,8 @@ public class MainActivity extends Activity {
     
     private void checagemInicial()
     {
-    	
-    	
+    	RepositorioScripts bd = new RepositorioScripts(getApplicationContext());
+    	//bd.fechar();    	
     }
     
     
