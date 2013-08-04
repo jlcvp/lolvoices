@@ -5,15 +5,14 @@
     android:orientation="vertical" >
  
     <!-- Download Button -->
-    <Button android:id="@+id/btnProgressBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Download File with Progress Bar"
-        android:layout_marginTop="50dip"/>
  
     <!-- Image view to show image after downloading -->
-    <ImageView android:id="@+id/my_image"
+
+    <ImageView
+        android:id="@+id/updaterImg"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/leaguebgalpha" />
  
 </LinearLayout>

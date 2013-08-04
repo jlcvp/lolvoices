@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
 /**
- * Class that implements an Item for a list view
+ * Class that implements an Item for a grid view
  * @author LeU
  *
  */

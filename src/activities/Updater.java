@@ -39,7 +39,8 @@ public class Updater extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_updater);
-
+		ImageView iv = (ImageView) findViewById(R.id.updaterImg);
+		//iv.setImageResource(R.drawable.lolbg);
 
 		// starting new Async Task
 		new DownloadFileFromURL().execute(file_url);
@@ -208,11 +209,7 @@ public class Updater extends Activity {
             startActivity(intent);
             finish();
             
-//            // DISPLAYING DOWNLOADED IMAGE INTO IMAGE VIEW
-//            // READING IMAGE PATH FROM SDCARD
-//            STRING IMAGEPATH = ENVIRONMENT.GETEXTERNALSTORAGEDIRECTORY().TOSTRING() + "/DOWNLOADEDFILE.JPG";
-//            // SETTING DOWNLOADED INTO IMAGE VIEW
-//            MY_IMAGE.SETIMAGEDRAWABLE(DRAWABLE.CREATEFROMPATH(IMAGEPATH));
+
         }
  
     }
