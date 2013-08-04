@@ -32,7 +32,7 @@ public class Updater extends Activity {
     public static final int progress_circle_type = 1;
  
     // File url to download
-    private static String file_url = "http://leu.lemanolos.com/thumbs.zip";
+    private static String file_url = "http://leu.lemanolos.com/dados.dat";
  
 	
 	@Override
@@ -122,10 +122,10 @@ public class Updater extends Activity {
                 InputStream input = new BufferedInputStream(url.openStream(), 8192);
  
                 // Output stream
-                File localFile = new File(getExternalFilesDir(null),"thumbs.zip"); 
+                File localFile = new File(getExternalFilesDir(null),"dados.dat"); 
                 Log.i("UpdaterActivity", "Length of Local file: " + localFile.length());
                 
-                if(!localFile.exists() || localFile.length() != lengthOfRemoteFile)
+                if(!localFile.exists() || localFile.length() < lengthOfRemoteFile)
                 {
 
                 	Log.i("UpdaterActivity","Arquivo local não existe ou possui" +

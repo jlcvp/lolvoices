@@ -18,9 +18,12 @@ import com.lolchampionsvoices.R;
 import com.lolchampionsvoices.R.layout;
 import com.lolchampionsvoices.R.menu;
 
+import database.RepositorioLoL;
+
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.app.Activity;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.Menu;
@@ -45,7 +48,7 @@ public class ChampionVoices extends Activity implements OnItemClickListener{
 		setContentView(R.layout.activity_champion_voices);
 		
 		try {
-			pacote = new ZipResourceFile(getExternalFilesDir(null).getAbsolutePath()+"/thumbs.zip");
+			pacote = new ZipResourceFile(getExternalFilesDir(null).getAbsolutePath()+"/dados.dat");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -146,21 +149,27 @@ public class ChampionVoices extends Activity implements OnItemClickListener{
 	 {
 		 itens = new ArrayList<ItemGridView>();
 			
-			String[] hue = new String[]{"attack1",
-					"joke",
-					"laugh1",
-					"laugh2",
-					"laugh5",
-					"move1",
-					"move4",
-					"move6",
-					"move9",
-					"taunt"};
+		 RepositorioLoL bd = new RepositorioLoL(getApplicationContext());
+		 Log.i("BANCO","Consegui criar o repositorioLoL de novo");
+		 ArrayList<String> sons = new ArrayList<String>();
+		 Cursor c=null;
+
+		 c=bd.query("SELECT som FROM sons WHERE heroi='"+champion_name+"'");
+
+		 if(c.getCount()>0)
+		 {
+			 c.moveToFirst();
+			 for(int i=0; i<c.getCount();i++)
+			 {
+				 sons.add(c.getString(c.getColumnIndex("som")));
+				 c.moveToNext();
+			 }
+		 }
 			
 			
-			for(int i=0;i<hue.length;i++)
+			for(int i=0;i<sons.size();i++)
 			{				
-				ItemGridView item = new ItemGridView(hue[i], getResources().getDrawable(R.drawable.autofalante));
+				ItemGridView item = new ItemGridView(sons.get(i), getResources().getDrawable(R.drawable.autofalante));
 				itens.add(item);
 			}
 			

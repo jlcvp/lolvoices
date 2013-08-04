@@ -79,7 +79,7 @@ public class ChampionsGrid extends Activity implements OnItemClickListener {
 		bd.fechar();
 	
 		try {
-			pacote = new ZipResourceFile(getExternalFilesDir(null).getAbsolutePath()+"/thumbs.zip");
+			pacote = new ZipResourceFile(getExternalFilesDir(null).getAbsolutePath()+"/dados.dat");
 			
 		} catch (IOException e) {
 			
