@@ -9,13 +9,14 @@
         android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.NoTitleBar" android:logo="@drawable/ic_launcher">
+        android:logo="@drawable/ic_launcher"
+        android:theme="@android:style/Theme.NoTitleBar" >
         <activity
             android:name="activities.MainActivity"
             android:label="@string/app_name" >
@@ -32,6 +33,10 @@
         <activity
             android:name="activities.Updater"
             android:label="@string/title_activity_updater" >
+        </activity>
+        <activity
+            android:name="activities.ChampionVoices"
+            android:label="@string/title_activity_champion_voices" >
         </activity>
     </application>
 

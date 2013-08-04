@@ -6,19 +6,23 @@ import java.util.ArrayList;
 
 import gridView.*;
 
-import caixamagica.APKExpansionSupport;
 import caixamagica.ZipResourceFile;
 
 import com.lolchampionsvoices.R;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.Toast;
 
-public class ChampionsGrid extends Activity {
+public class ChampionsGrid extends Activity implements OnItemClickListener {
 
 	private GridView gridView;
     private AdapterGridView adapterGridView;
@@ -31,7 +35,20 @@ public class ChampionsGrid extends Activity {
         setContentView(R.layout.activity_champions_grid);
         gridView = (GridView) findViewById(R.id.champ_gridView1);
         createGridView();
-        /*TODO implementar o clicklistener do grid*/
+        
+        gridView.setOnItemClickListener(this);
+       
+    }
+    
+    public void onItemClick(AdapterView<?> arg0, View view, int position, long arg3) {
+        //Pega o item que foi selecionado.
+        ItemGridView item = adapterGridView.getItem(position);
+        //Toast.makeText(this, "Clicou em: "+item.getTexto(), Toast.LENGTH_LONG).show();
+        Log.i("Champions Grid", "Clicou em: "+item.getTexto());
+        Intent it = new Intent(ChampionsGrid.this, ChampionVoices.class);
+        it.putExtra("Champion", item.getTexto());
+        startActivity(it);
+        
     }
 
 
@@ -158,7 +175,7 @@ public class ChampionsGrid extends Activity {
 			pacote = new ZipResourceFile(getExternalFilesDir(null).getAbsolutePath()+"/thumbs.zip");
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			Log.e("ERRO","Deu merda abrindo o zip");
 			e.printStackTrace();
 		}
@@ -171,7 +188,7 @@ public class ChampionsGrid extends Activity {
 			try {
 				icone = Drawable.createFromStream(pacote.getInputStream("Thumbs/"+hue[i]+".png"), null);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+
 				e.printStackTrace();
 			}
 			ItemGridView elemento = new ItemGridView(hue[i],icone);

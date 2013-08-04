@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".ChampionVoices" >
+
+    <ImageView
+        android:id="@+id/imageView_champion_thumb"
+        android:src="@drawable/ic_launcher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" />
+
+    <GridView
+        android:id="@+id/gridViewVoices"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/imageView_champion_thumb"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/imageView_champion_thumb"
+        android:layout_marginTop="20dp"
+        android:numColumns="4" >
+
+    </GridView>
+
+    <TextView
+        android:id="@+id/textView_champion_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageView_champion_thumb"
+        android:layout_toRightOf="@+id/imageView_champion_thumb"
+        android:text="Champion Name"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</RelativeLayout>

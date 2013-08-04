@@ -17,7 +17,10 @@ public class ItemGridView {
     public ItemGridView(String texto, Drawable iconeDrawable) {
         this.texto = texto;
         //this.icone = new MjolnirImg(iconeBytes);
+
         this.icone = iconeDrawable;
+
+        
         
     }
     
