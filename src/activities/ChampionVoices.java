@@ -144,6 +144,15 @@ public class ChampionVoices extends Activity implements OnItemClickListener{
 		return true;
 	}
 	 
+	 @Override
+	 public void onPause()
+	 {
+		 super.onPause();
+		 mplayer.release();
+		 finish();
+		 
+	 }
+	 
 	 
 	 private void createGridView()
 	 {
