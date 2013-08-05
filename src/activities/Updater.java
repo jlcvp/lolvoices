@@ -8,6 +8,8 @@ import com.lolchampionsvoices.R;
 import com.lolchampionsvoices.R.layout;
 import com.lolchampionsvoices.R.menu;
 
+import database.RepositorioScripts;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -110,6 +112,7 @@ public class Updater extends Activity {
         @Override
         protected String doInBackground(String... f_url) {
             int count;
+            RepositorioScripts bd = new RepositorioScripts(getApplicationContext());
             try {
                 URL url = new URL(f_url[0]);
                 URLConnection conection = url.openConnection();
@@ -125,7 +128,7 @@ public class Updater extends Activity {
                 File localFile = new File(getExternalFilesDir(null),"dados.dat"); 
                 Log.i("UpdaterActivity", "Length of Local file: " + localFile.length());
                 
-                if(!localFile.exists() || localFile.length() < lengthOfRemoteFile)
+                if(!localFile.exists() || localFile.length() != lengthOfRemoteFile)
                 {
 
                 	Log.i("UpdaterActivity","Arquivo local não existe ou possui" +

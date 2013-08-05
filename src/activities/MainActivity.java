@@ -42,8 +42,7 @@ public class MainActivity extends Activity {
     
     private void checagemInicial()
     {
-    	RepositorioScripts bd = new RepositorioScripts(getApplicationContext());
-    	//bd.fechar();    	
+    		
     }
     
     
