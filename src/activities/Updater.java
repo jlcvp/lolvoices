@@ -32,10 +32,12 @@ public class Updater extends Activity {
     // Progress dialog type (0 - for Horizontal progress bar)
     public static final int progress_bar_type = 0;
     public static final int progress_circle_type = 1;
+    Downloader downloader;
  
     // File url to download
     private static String file_url = "http://leu.lemanolos.com/dados.dat";
  
+    
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
