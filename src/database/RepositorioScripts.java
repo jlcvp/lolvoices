@@ -3405,37 +3405,7 @@ public class RepositorioScripts extends RepositorioGenerico {
 			"insert into sons(heroi, som) values('Zyra', 'spellcasteffort54');",
 			"insert into sons(heroi, som) values('Zyra', 'taunt');",
 			"insert into sons(heroi, som) values('Zyra', 'taunt2');"
-			/*
-			
-			"insert into niveis(nivel, pt_necessaria, pt_atingida) values(2,30,0);",
-		"insert into niveis(nivel, pt_necessaria, pt_atingida) values(3,80,0);",
-		"insert into niveis(nivel, pt_necessaria, pt_atingida) values(4,130,0);",
-		"insert into afirmacao(src,resposta,nivel) values('1+1=2', 'T', 1);",
-		"insert into afirmacao(src,resposta,nivel) values('1+2=2', 'F', 1);",
-		"insert into afirmacao(src,resposta,nivel) values('2+2=4', 'T', 1);",
-		"insert into afirmacao(src,resposta,nivel) values('3x2=6', 'T', 1);",
-		"insert into afirmacao(src,resposta,nivel) values('1+1=11','F', 1);",
-		"insert into afirmacao (src,resposta,nivel) values('2x10=100', 'F', 2);",
-		"insert into afirmacao (src,resposta,nivel) values('3x10=300', 'F', 2);",
-		"insert into afirmacao (src,resposta,nivel) values('10x0=100', 'F', 2);",
-		"insert into afirmacao (src,resposta,nivel) values('2x11=110', 'F', 2);",
-		"insert into afirmacao (src,resposta,nivel) values('3x20=32', 'F', 2);"
-//		"insert into (src,resposta,nivel) values()" +
-//		"insert into (src,resposta,nivel) values()" +
-//		"insert into (src,resposta,nivel) values()" +
-//		"insert into (src,resposta,nivel) values()" +
-//		"insert into (src,resposta,nivel) values()"
-//		"insert into () values()" +
-//		"insert into () values()" +
-//		"insert into () values()" +
-//		"insert into () values()" +
-//		"insert into () values()" +
-//		"insert into () values()" +
-//		"insert into () values()" +
-//		"insert into () values()" +
-//		"insert into () values()" +
-//		"insert into () values()" +
-		*/		
+				
 		};
 	
 	private static final int VERSAO_BANCO = 1;
