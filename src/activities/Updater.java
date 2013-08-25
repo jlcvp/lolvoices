@@ -24,35 +24,42 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
     public static final int progress_circle_type = 1;
     int dialogType;
     
+    
     	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_updater);
-		ImageView iv = (ImageView) findViewById(R.id.updaterImg);
-		iv.setImageResource(R.drawable.lolbg);
+		pDialog=null;
+//		ImageView iv = (ImageView) findViewById(R.id.updaterImg);
+//		iv.setImageResource(R.drawable.lolbg);
 		FragmentManager fm = getFragmentManager();
 		myWorker = (WorkerFragment) fm.findFragmentByTag("task");
-		
-		dialogType=0;
-		//showDialog(progress_circle_type);
-		
 		if(myWorker == null)
 		{
 			myWorker = new WorkerFragment();
 			fm.beginTransaction().add(myWorker, "task").commit();
 			myWorker.setarFragment(getApplicationContext(), getExternalFilesDir(null));
-			myWorker.startTask();
+			myWorker.startTask(this);
 		}
 		
-		
-		
-
 		// starting new Async Task
 		//new DownloadFileFromURL().execute(file_url);
 		
 
 		
+	}
+	
+	public void mostrarDialogs(int currentDialogType)
+	{
+		if(currentDialogType == progress_circle_type)
+		{
+			showDialog(progress_circle_type);
+		}
+		else
+		{
+			showDialog(progress_bar_type);
+		}		
 	}
 
 	@Override
@@ -98,23 +105,29 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
     public void onPreExecute() 
     {
     	Log.i("onPreExecute","entrou");
-    	dialogType = 0;            
-		showDialog(progress_circle_type);
-    	
+    	            
+		   	
     }
    
     @Override
 	public void onProgressUpdate(String... progress) {
     	// setting progress percentage
-    	if(progress[0].equals("progresso"))
+    	if(pDialog!=null)
     	{
-    		pDialog.setProgress(Integer.parseInt(progress[1]));    		
+    		if(progress[0].equals("progresso"))
+    		{
+    			pDialog.setProgress(Integer.parseInt(progress[1]));    		
+    		}
+    		else 
+    		{
+    			dismissDialog(progress_circle_type);
+    			showDialog(progress_bar_type);
+    			dialogType=1;
+    		}
     	}
-    	else 
+    	else
     	{
-    		dismissDialog(progress_circle_type);
-    		showDialog(progress_bar_type);
-    		dialogType=1;
+    		
     	}
 
     }
@@ -126,24 +139,33 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
     @Override
     public void onPostExecute(String ignore) 
     {
-    	// dismiss the dialog after the file was downloaded
-//		if(dialogType == 0){
-//			dismissDialog(progress_circle_type);
-//		}
-//		else
-//		{
-//			dismissDialog(progress_bar_type);
-//		}
-//
-//		/*AQUI É ONDE A MÁGICA COMEÇA! */
-//		FragmentManager fm = getFragmentManager();
-//		if(fm.findFragmentByTag("task")!=null)
-//		{
-//			fm.beginTransaction().remove(fm.findFragmentByTag("task"));
-//		}
+    	//dismiss the dialog after the file was downloaded
+		if(pDialog!=null){
+			if(dialogType == 0)
+			{
+				dismissDialog(progress_circle_type);
+			}
+			else
+			{
+				dismissDialog(progress_bar_type);
+			}
+		}
+
+		/*AQUI É ONDE A MÁGICA COMEÇA! */
+		FragmentManager fm = getFragmentManager();
+		if(fm.findFragmentByTag("task")!=null)
+		{
+			fm.beginTransaction().remove(fm.findFragmentByTag("task"));
+		}
 			Intent intent = new Intent(Updater.this, ChampionsGrid.class);
 			startActivity(intent);
 			finish();
+    }
+    
+    
+    private void dale()
+    {
+    	
     }
  
     

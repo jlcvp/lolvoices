@@ -22,19 +22,19 @@ import android.view.ViewGroup;
 
 public class WorkerFragment extends Fragment {
 	private static String FILE_URL = "http://leu.lemanolos.com/dados.dat";
+	private TaskCallbacks mCallbacks;
+	File extFilesDir;
+	Context mContext;
+	DownloadFileFromURL downloader;
+	int DialogType;
+	
+	
 	public static interface TaskCallbacks {
 	    void onPreExecute();
 	    void onProgressUpdate(String... progress);
 	    void onCancelled();
 	    void onPostExecute(String str);
 	  }
-	
-	private TaskCallbacks mCallbacks;
-	File extFilesDir;
-	Context mContext;
-	DownloadFileFromURL downloader;
-	
-	
 	/**
 	   * Hold a reference to the parent Activity so we can report the
 	   * task's current progress and results. The Android framework
@@ -43,8 +43,11 @@ public class WorkerFragment extends Fragment {
 	   */
 	@Override
 	public void onAttach(Activity activity) {
-	    super.onAttach(activity);
+	    Log.i("OnAttach","OnAttach Chamado");
+		super.onAttach(activity);
 	    mCallbacks = (TaskCallbacks) activity;
+	    
+	    Log.i("OnAttach","OnAttach Finalizado");		
 	}
 	@Override
 	  public void onDetach() {
@@ -53,12 +56,21 @@ public class WorkerFragment extends Fragment {
 	  }
 	
 	
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		return null;
+	}
     @Override
     public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);   
       // Retain this fragment across configuration changes.
-      setRetainInstance(true);      
+      setRetainInstance(true);
+      
     }
+    
+    
     
     
     public void setarFragment(Context mContext, File externalFilesDir)
@@ -69,9 +81,10 @@ public class WorkerFragment extends Fragment {
     	
     }
     
-    public void startTask()
+    public void startTask(Activity act)
     {
-    	downloader.execute("go");    	
+    	downloader.execute("go");
+    	mCallbacks = (TaskCallbacks) act;
     }
     
     /**
@@ -92,7 +105,7 @@ public class WorkerFragment extends Fragment {
     	@Override
         public void onPreExecute() {
     	  Log.i("WorkerFragment","OnPreExecutedChamado\nmCallbacks=="+mCallbacks);
-          while(mCallbacks==null);
+          //while(mCallbacks==null);
           Log.i("WorkerFragment","OnPreExecutedChamado\nmCallbacks=="+mCallbacks);
     		if (mCallbacks != null) {
             mCallbacks.onPreExecute();
