@@ -38,6 +38,7 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_updater);
+		dialogType = -1;
 		pDialog=null;
 //		ImageView iv = (ImageView) findViewById(R.id.updaterImg);
 //		iv.setImageResource(R.drawable.lolbg);
@@ -49,7 +50,7 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
 			myWorker = new WorkerFragment();
 			fm.beginTransaction().add(myWorker, "task").commit();
 			myWorker.setarFragment(getApplicationContext(), getExternalFilesDir(null));
-			myWorker.startTask(this);
+			
 		}
 		
 		
@@ -88,7 +89,7 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
      * Showing Dialog
      * */
     @Override
-    protected synchronized Dialog onCreateDialog(int id) {
+    protected Dialog onCreateDialog(int id) {
         switch (id) {
         case progress_bar_type: // we set this to 0
             pDialog = new ProgressDialog(this);
@@ -106,7 +107,7 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
             pDialog.setMessage("Verificando consistência de arquivos...");
             pDialog.setIndeterminate(true);
             pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            pDialog.setCancelable(false);
+            pDialog.setCancelable(true);
             pDialog.show();
             dialogType=progress_circle_type;
             return pDialog;
@@ -124,7 +125,7 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
     }
    
     @Override
-	public void onProgressUpdate(String... progress) {
+	public synchronized void  onProgressUpdate(String... progress) {
     	// setting progress percentage
     	
     	if(pDialog!=null)
@@ -132,6 +133,7 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
     		
     		if(dialogType == progress_bar_type)
     		{
+    			
     			if(Integer.parseInt(progress[1])!=debugProgress)
     			{
     				debugProgress = Integer.parseInt(progress[1]);
@@ -139,7 +141,7 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
     			}
     			pDialog.setProgress(Integer.parseInt(progress[1]));    		
     		}
-    		else 
+    		else if(dialogType == progress_circle_type) 
     		{
     			dismissDialog(progress_circle_type);
     			showDialog(progress_bar_type);    			
@@ -147,18 +149,10 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
     	}
     	else
     	{
-    		Log.i("onProgressUpdate", "pDialog == null");
-    		Log.i("onProgressUpdate", "progressoHUEHUE = "+ progress[0]);
-    		if(progress[0].equals("progresso"))
-        	{
-    			mostrarDialogs(progress_bar_type);
-        		pDialog.setProgress(Integer.parseInt(progress[1]));    		
-        	}
-    		else
-    		{
-    			mostrarDialogs(progress_circle_type);
-    		}
+    		Log.i("onProgressUpdate","pDialog = "+pDialog);
     	}
+    	
+    	
 
     }
     
@@ -194,23 +188,6 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
     }
     
     
-    @Override
-    protected void onPause() {
-    	// TODO Auto-generated method stub
-    	super.onPause();
-    	if(pDialog!=null)
-		{
-			if(dialogType == progress_circle_type)
-			{
-				dismissDialog(progress_circle_type);
-			}
-			else
-			{
-				dismissDialog(progress_bar_type);
-			}
-		}
-    	
-    }
  
     
 

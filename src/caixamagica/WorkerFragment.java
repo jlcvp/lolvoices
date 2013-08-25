@@ -10,6 +10,7 @@ import java.net.URLConnection;
 
 import database.RepositorioScripts;
 
+import activities.Updater;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,6 +27,10 @@ public class WorkerFragment extends Fragment {
 	File extFilesDir;
 	Context mContext;
 	DownloadFileFromURL downloader;
+	int currentDialogType;
+	
+	public static final int progress_bar_type = 0;
+    public static final int progress_circle_type = 1;
 	
 	
 	
@@ -47,7 +52,9 @@ public class WorkerFragment extends Fragment {
 		super.onAttach(activity);
 	    mCallbacks = (TaskCallbacks) activity;
 	    
-	    Log.i("OnAttach","OnAttach Finalizado\n mCallbacks = "+mCallbacks);		
+	    Log.i("OnAttach","OnAttach Finalizado\n mCallbacks = "+mCallbacks);	
+	    
+		((Updater)activity).mostrarDialogs(currentDialogType);
 	}
 	@Override
 	  public void onDetach() {
@@ -77,15 +84,10 @@ public class WorkerFragment extends Fragment {
     {
     	this.mContext=mContext;
     	extFilesDir=externalFilesDir;
-    	downloader = new DownloadFileFromURL(mContext, extFilesDir);
+    	new DownloadFileFromURL(mContext, extFilesDir).execute("ignore");
     	
     }
     
-    public void startTask(Activity act)
-    {
-    	downloader.execute("go");
-    	mCallbacks = (TaskCallbacks) act;
-    }
     
     /**
      * Background Async Task to download file
@@ -125,6 +127,8 @@ public class WorkerFragment extends Fragment {
     	@Override
     	protected String doInBackground(String... f_url) {
     		int count;
+    		currentDialogType=progress_circle_type;
+    		
     		RepositorioScripts bd = new RepositorioScripts(applicationContext);
     		
     		try {
@@ -149,6 +153,7 @@ public class WorkerFragment extends Fragment {
     						"um tamanho diferente do esperado, baixando de novo");
 
     				publishProgress("baixando");	
+    				//onProgressUpdate("baixando");
     				
     				OutputStream output = new FileOutputStream(localFile);
 
