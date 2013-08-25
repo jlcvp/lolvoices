@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.app.FragmentManager;
+import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.widget.ImageView;
 import caixamagica.WorkerFragment;
@@ -20,7 +22,7 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
     // Progress dialog type (0 - for Horizontal progress bar)
     public static final int progress_bar_type = 0;
     public static final int progress_circle_type = 1;
-    
+    int dialogType;
     
     	
 	@Override
@@ -91,18 +93,55 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
     
     @Override
     public void onPreExecute() 
-    {  
+    {
+    	dialogType = 0;            
+		showDialog(progress_circle_type);
     	
     }
    
     @Override
-    public void onProgressUpdate(String percent) {  }
+	public void onProgressUpdate(String... progress) {
+    	// setting progress percentage
+    	if(progress[0].equals("progresso"))
+    	{
+    		pDialog.setProgress(Integer.parseInt(progress[1]));
+    		Log.i("Progresso: ",progress[1]);
+    	}
+    	else 
+    	{
+    		dismissDialog(progress_circle_type);
+    		showDialog(progress_bar_type);
+    		dialogType=1;
+    	}
+
+    }
+    
    
     @Override
     public void onCancelled() {  }
    
     @Override
-    public void onPostExecute(String ignore) {  }
+    public void onPostExecute(String ignore) 
+    {
+    	// dismiss the dialog after the file was downloaded
+//		if(dialogType == 0){
+//			dismissDialog(progress_circle_type);
+//		}
+//		else
+//		{
+//			dismissDialog(progress_bar_type);
+//		}
+//
+//		/*AQUI É ONDE A MÁGICA COMEÇA! */
+//		FragmentManager fm = getFragmentManager();
+//		if(fm.findFragmentByTag("task")!=null)
+//		{
+//			fm.beginTransaction().remove(fm.findFragmentByTag("task"));
+//		}
+			Intent intent = new Intent(Updater.this, ChampionsGrid.class);
+			startActivity(intent);
+			finish();
+    }
  
     
 

@@ -24,7 +24,7 @@ public class WorkerFragment extends Fragment {
 	private static String FILE_URL = "http://leu.lemanolos.com/dados.dat";
 	public static interface TaskCallbacks {
 	    void onPreExecute();
-	    void onProgressUpdate(String percent);
+	    void onProgressUpdate(String... progress);
 	    void onCancelled();
 	    void onPostExecute(String str);
 	  }
@@ -173,22 +173,14 @@ public class WorkerFragment extends Fragment {
     	/**
     	 * Updating progress bar
     	 * */
-    	protected void onProgressUpdate(String... progress) {
-    		// setting progress percentage
-    		if(progress[0].equals("progresso"))
-    		{
-    			//pDialog.setProgress(Integer.parseInt(progress[1]));
-    			Log.i("Progresso: ",progress[1]);
-    		}
-    		else 
-    		{
-    			//dismissDialog(progress_circle_type);
-    			//showDialog(progress_bar_type);
-    			//dialogType=1;
-
-    		}
-
-    	}
+    	@Override
+        protected void onProgressUpdate(String... percent) {
+          if (mCallbacks != null) {
+            mCallbacks.onProgressUpdate(percent);
+          }
+        }
+    	
+    	
 
     	/**
     	 * After completing background task
@@ -196,14 +188,17 @@ public class WorkerFragment extends Fragment {
     	 * **/
     	@Override
     	protected void onPostExecute(String file_url) {
-    		// dismiss the dialog after the file was downloaded
-    		if(dialogType == 0){
-    			//dismissDialog(progress_circle_type);
-    		}
-    		else
-    		{
-    			//dismissDialog(progress_bar_type);
-    		}
+    		if (mCallbacks != null) {
+    	        mCallbacks.onPostExecute(null);
+    	      }
+//    		// dismiss the dialog after the file was downloaded
+//    		if(dialogType == 0){
+//    			//dismissDialog(progress_circle_type);
+//    		}
+//    		else
+//    		{
+//    			//dismissDialog(progress_bar_type);
+//    		}
 
     		/*AQUI É ONDE A MÁGICA COMEÇA! */
 
