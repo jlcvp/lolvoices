@@ -35,7 +35,7 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
 		myWorker = (WorkerFragment) fm.findFragmentByTag("task");
 		
 		dialogType=0;
-		showDialog(progress_circle_type);
+		//showDialog(progress_circle_type);
 		
 		if(myWorker == null)
 		{

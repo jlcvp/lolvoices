@@ -91,7 +91,7 @@ public class WorkerFragment extends Fragment {
 
     	@Override
         protected void onPreExecute() {
-          super.onPreExecute();
+          Log.i("WorkerFragment","OnPreExecutedChamado\nmCallbacks=="+mCallbacks);
     		if (mCallbacks != null) {
             mCallbacks.onPreExecute();
           }
