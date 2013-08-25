@@ -6,7 +6,6 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.app.FragmentManager;
 import android.content.Intent;
-import android.content.SyncResult;
 import android.util.Log;
 import android.view.Menu;
 import android.widget.ImageView;
@@ -50,8 +49,9 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
 			myWorker = new WorkerFragment();
 			fm.beginTransaction().add(myWorker, "task").commit();
 			myWorker.setarFragment(getApplicationContext(), getExternalFilesDir(null));
-			
+					
 		}
+		myWorker.show(fm, "task");
 		
 		
 		
@@ -62,20 +62,20 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
 		
 	}
 
-	public void mostrarDialogs(int currentDialogType)
-	{
-		if (pDialog == null)
-		{
-			if(currentDialogType == progress_circle_type)
-			{
-				showDialog(progress_circle_type);
-			}
-			else
-			{
-				showDialog(progress_bar_type);
-			}
-		}
-	}
+//	public void mostrarDialogs(int currentDialogType)
+//	{
+//		if (pDialog == null)
+//		{
+//			if(currentDialogType == progress_circle_type)
+//			{
+//				showDialog(progress_circle_type);
+//			}
+//			else
+//			{
+//				showDialog(progress_bar_type);
+//			}
+//		}
+//	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -86,79 +86,78 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
 	
 	
 	/**
-     * Showing Dialog
-     * */
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        switch (id) {
-        case progress_bar_type: // we set this to 0
-            pDialog = new ProgressDialog(this);
-            pDialog.setMessage("Baixando arquivos de mídia");
-            pDialog.setIndeterminate(false);
-            pDialog.setMax(100);
-            pDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            pDialog.setCancelable(false);
-            pDialog.show();
-            dialogType=progress_bar_type;
-            return pDialog;
-            
-        case progress_circle_type:
-        	pDialog = new ProgressDialog(this);
-            pDialog.setMessage("Verificando consistência de arquivos...");
-            pDialog.setIndeterminate(true);
-            pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            pDialog.setCancelable(true);
-            pDialog.show();
-            dialogType=progress_circle_type;
-            return pDialog;
-            
-        default:
-            return null;
-        }     
-       
-    }
-    
-    @Override
-    public void onPreExecute() 
-    {
-    	Log.i("onPreExecute","entrou");
-    }
+//     * Showing Dialog
+//     * */
+//    @Override
+//    protected Dialog onCreateDialog(int id) {
+//        switch (id) {
+//        case progress_bar_type: // we set this to 0
+//            pDialog = new ProgressDialog(this);
+//            pDialog.setMessage("Baixando arquivos de mídia");
+//            pDialog.setIndeterminate(false);
+//            pDialog.setMax(100);
+//            pDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+//            pDialog.setCancelable(false);
+//            pDialog.show();
+//            dialogType=progress_bar_type;
+//            return pDialog;
+//            
+//        case progress_circle_type:
+//        	pDialog = new ProgressDialog(this);
+//            pDialog.setMessage("Verificando consistência de arquivos...");
+//            pDialog.setIndeterminate(true);
+//            pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+//            pDialog.setCancelable(true);
+//            pDialog.show();
+//            dialogType=progress_circle_type;
+//            return pDialog;
+//            
+//        default:
+//            return null;
+//        }     
+//       
+//    }
+//    
+//    @Override
+//    public void onPreExecute() 
+//    {
+//    	Log.i("onPreExecute","entrou");
+//    }
    
-    @Override
-	public synchronized void  onProgressUpdate(String... progress) {
-    	// setting progress percentage
-    	
-    	if(pDialog!=null)
-    	{
-    		
-    		if(dialogType == progress_bar_type)
-    		{
-    			
-    			if(Integer.parseInt(progress[1])!=debugProgress)
-    			{
-    				debugProgress = Integer.parseInt(progress[1]);
-    				Log.i("onProgressUpdate","debugProgress = "+debugProgress);
-    			}
-    			pDialog.setProgress(Integer.parseInt(progress[1]));    		
-    		}
-    		else if(dialogType == progress_circle_type) 
-    		{
-    			dismissDialog(progress_circle_type);
-    			showDialog(progress_bar_type);    			
-    		}
-    	}
-    	else
-    	{
-    		Log.i("onProgressUpdate","pDialog = "+pDialog);
-    	}
-    	
-    	
-
-    }
+//    @Override
+//	public synchronized void  onProgressUpdate(String... progress) {
+//    	// setting progress percentage
+//    	
+//    	if(pDialog!=null)
+//    	{
+//    		
+//    		if(dialogType == progress_bar_type)
+//    		{
+//    			
+//    			if(Integer.parseInt(progress[1])!=debugProgress)
+//    			{
+//    				debugProgress = Integer.parseInt(progress[1]);
+//    				Log.i("onProgressUpdate","debugProgress = "+debugProgress);
+//    			}
+//    			pDialog.setProgress(Integer.parseInt(progress[1]));    		
+//    		}
+//    		else if(dialogType == progress_circle_type) 
+//    		{
+//    			dismissDialog(progress_circle_type);
+//    			showDialog(progress_bar_type);    			
+//    		}
+//    	}
+//    	else
+//    	{
+//    		Log.i("onProgressUpdate","pDialog = "+pDialog);
+//    	}
+//    	
+//    	
+//
+//    }
     
    
-    @Override
-    public void onCancelled() {  }
+    
    
     @Override
     public void onPostExecute(String ignore) 

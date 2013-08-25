@@ -15,19 +15,24 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
-import android.app.Fragment;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.ProgressDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class WorkerFragment extends Fragment {
+public class WorkerFragment extends DialogFragment {
 	private static String FILE_URL = "http://leu.lemanolos.com/dados.dat";
 	private TaskCallbacks mCallbacks;
 	File extFilesDir;
 	Context mContext;
 	DownloadFileFromURL downloader;
 	int currentDialogType;
+	ProgressDialog pDialog;
+	int dialogType;
 	
 	public static final int progress_bar_type = 0;
     public static final int progress_circle_type = 1;
@@ -35,9 +40,6 @@ public class WorkerFragment extends Fragment {
 	
 	
 	public static interface TaskCallbacks {
-	    void onPreExecute();
-	    void onProgressUpdate(String... progress);
-	    void onCancelled();
 	    void onPostExecute(String str);
 	  }
 	/**
@@ -54,7 +56,7 @@ public class WorkerFragment extends Fragment {
 	    
 	    Log.i("OnAttach","OnAttach Finalizado\n mCallbacks = "+mCallbacks);	
 	    
-		((Updater)activity).mostrarDialogs(currentDialogType);
+		//((Updater)activity).mostrarDialogs(currentDialogType);
 	}
 	@Override
 	  public void onDetach() {
@@ -64,11 +66,11 @@ public class WorkerFragment extends Fragment {
 	
 	
 	
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
     @Override
     public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);   
@@ -90,6 +92,55 @@ public class WorkerFragment extends Fragment {
     
     
     /**
+     *  Showing Dialog
+    * */
+   @Override
+   public Dialog onCreateDialog(Bundle id) {
+       
+	ProgressDialog pDialog = new ProgressDialog(getActivity());
+	
+	switch (id.getInt("pType")) {
+       case progress_bar_type: // we set this to 0
+    	   
+    	   pDialog.setMessage("Baixando arquivos de mídia");
+           pDialog.setIndeterminate(false);
+           pDialog.setMax(100);
+           pDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+           pDialog.setCancelable(false);
+//           pDialog.show();
+           dialogType=progress_bar_type;
+           return pDialog;
+           
+       case progress_circle_type:
+    	   
+           pDialog.setMessage("Verificando consistência de arquivos...");
+           pDialog.setIndeterminate(true);
+           pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+           pDialog.setCancelable(true);
+           
+           dialogType=progress_circle_type;
+           return pDialog;
+           
+           
+           
+       default:
+           return null;
+       }     
+      
+   }
+   
+//    public void  onProgressUpdate(String... progress) {
+//    	// setting progress percentage
+//    	
+    	
+    
+    
+    
+    
+    
+    
+    
+    /**
      * Background Async Task to download file
      * */
     class DownloadFileFromURL extends AsyncTask<String, String, String> {
@@ -104,15 +155,7 @@ public class WorkerFragment extends Fragment {
     		extFilesDir=externalFilesDir;		
     	}
 
-    	@Override
-        public void onPreExecute() {
-    	  Log.i("WorkerFragment","OnPreExecutedChamado\nmCallbacks=="+mCallbacks);
-          //while(mCallbacks==null);
-          Log.i("WorkerFragment","OnPreExecutedChamado\nmCallbacks=="+mCallbacks);
-    		if (mCallbacks != null) {
-            mCallbacks.onPreExecute();
-          }
-        }
+    	
 //    	@Override
 //    	protected void onPreExecute() {
 //    		super.onPreExecute();
@@ -195,13 +238,28 @@ public class WorkerFragment extends Fragment {
     	 * Updating progress bar
     	 * */
     	@Override
-        protected void onProgressUpdate(String... percent) {
+        protected void onProgressUpdate(String... progress) {
     		
-    		//Log.i("onProgressUpdate Fragment", "progress[0]= "+percent[0]);
-    		
-    		if (mCallbacks != null) {
-            mCallbacks.onProgressUpdate(percent);
-          }
+    		//Log.i("onProgressUpdate Fragment", "progress[0]= "+percent[0]);    		
+    		if(isVisible())
+        	{
+        		
+        		if(dialogType == progress_bar_type)
+        		{	
+        			pDialog.setProgress(Integer.parseInt(progress[1]));
+        			  		
+        		}
+        		else if(dialogType == progress_circle_type) 
+        		{
+        			pDialog.dismiss();
+        			
+        			    			
+        		}
+        	}
+        	else
+        	{
+        		Log.i("onProgressUpdate","pDialog = "+pDialog);
+        	}
         }
     	
     	
