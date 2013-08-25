@@ -26,7 +26,7 @@ public class WorkerFragment extends Fragment {
 	File extFilesDir;
 	Context mContext;
 	DownloadFileFromURL downloader;
-	int DialogType;
+	
 	
 	
 	public static interface TaskCallbacks {
@@ -47,7 +47,7 @@ public class WorkerFragment extends Fragment {
 		super.onAttach(activity);
 	    mCallbacks = (TaskCallbacks) activity;
 	    
-	    Log.i("OnAttach","OnAttach Finalizado");		
+	    Log.i("OnAttach","OnAttach Finalizado\n mCallbacks = "+mCallbacks);		
 	}
 	@Override
 	  public void onDetach() {
@@ -149,10 +149,10 @@ public class WorkerFragment extends Fragment {
     						"um tamanho diferente do esperado, baixando de novo");
 
     				publishProgress("baixando");	
-
+    				
     				OutputStream output = new FileOutputStream(localFile);
 
-    				byte data[] = new byte[1024];
+    				byte data[] = new byte[4096];
 
     				long total = 0;
 
@@ -191,7 +191,10 @@ public class WorkerFragment extends Fragment {
     	 * */
     	@Override
         protected void onProgressUpdate(String... percent) {
-          if (mCallbacks != null) {
+    		
+    		//Log.i("onProgressUpdate Fragment", "progress[0]= "+percent[0]);
+    		
+    		if (mCallbacks != null) {
             mCallbacks.onProgressUpdate(percent);
           }
         }

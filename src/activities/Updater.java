@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.content.SyncResult;
 import android.util.Log;
 import android.view.Menu;
 import android.widget.ImageView;
@@ -18,11 +19,18 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
 	// Progress Dialog
     private ProgressDialog pDialog;
     ImageView my_image;
+    boolean isUpdating;
+    
     
     // Progress dialog type (0 - for Horizontal progress bar)
     public static final int progress_bar_type = 0;
     public static final int progress_circle_type = 1;
     int dialogType;
+    
+    //int Debugs
+    int debugProgress;
+    
+    
     
     
     	
@@ -33,6 +41,7 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
 		pDialog=null;
 //		ImageView iv = (ImageView) findViewById(R.id.updaterImg);
 //		iv.setImageResource(R.drawable.lolbg);
+		debugProgress = 0;
 		FragmentManager fm = getFragmentManager();
 		myWorker = (WorkerFragment) fm.findFragmentByTag("task");
 		if(myWorker == null)
@@ -43,23 +52,28 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
 			myWorker.startTask(this);
 		}
 		
+		
+		
 		// starting new Async Task
 		//new DownloadFileFromURL().execute(file_url);
 		
 
 		
 	}
-	
+
 	public void mostrarDialogs(int currentDialogType)
 	{
-		if(currentDialogType == progress_circle_type)
+		if (pDialog == null)
 		{
-			showDialog(progress_circle_type);
+			if(currentDialogType == progress_circle_type)
+			{
+				showDialog(progress_circle_type);
+			}
+			else
+			{
+				showDialog(progress_bar_type);
+			}
 		}
-		else
-		{
-			showDialog(progress_bar_type);
-		}		
 	}
 
 	@Override
@@ -74,7 +88,7 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
      * Showing Dialog
      * */
     @Override
-    protected Dialog onCreateDialog(int id) {
+    protected synchronized Dialog onCreateDialog(int id) {
         switch (id) {
         case progress_bar_type: // we set this to 0
             pDialog = new ProgressDialog(this);
@@ -82,8 +96,9 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
             pDialog.setIndeterminate(false);
             pDialog.setMax(100);
             pDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            pDialog.setCancelable(true);
+            pDialog.setCancelable(false);
             pDialog.show();
+            dialogType=progress_bar_type;
             return pDialog;
             
         case progress_circle_type:
@@ -91,8 +106,9 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
             pDialog.setMessage("Verificando consistência de arquivos...");
             pDialog.setIndeterminate(true);
             pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            pDialog.setCancelable(true);
+            pDialog.setCancelable(false);
             pDialog.show();
+            dialogType=progress_circle_type;
             return pDialog;
             
         default:
@@ -105,29 +121,43 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
     public void onPreExecute() 
     {
     	Log.i("onPreExecute","entrou");
-    	            
-		   	
     }
    
     @Override
 	public void onProgressUpdate(String... progress) {
     	// setting progress percentage
+    	
     	if(pDialog!=null)
     	{
-    		if(progress[0].equals("progresso"))
+    		
+    		if(dialogType == progress_bar_type)
     		{
+    			if(Integer.parseInt(progress[1])!=debugProgress)
+    			{
+    				debugProgress = Integer.parseInt(progress[1]);
+    				Log.i("onProgressUpdate","debugProgress = "+debugProgress);
+    			}
     			pDialog.setProgress(Integer.parseInt(progress[1]));    		
     		}
     		else 
     		{
     			dismissDialog(progress_circle_type);
-    			showDialog(progress_bar_type);
-    			dialogType=1;
+    			showDialog(progress_bar_type);    			
     		}
     	}
     	else
     	{
-    		
+    		Log.i("onProgressUpdate", "pDialog == null");
+    		Log.i("onProgressUpdate", "progressoHUEHUE = "+ progress[0]);
+    		if(progress[0].equals("progresso"))
+        	{
+    			mostrarDialogs(progress_bar_type);
+        		pDialog.setProgress(Integer.parseInt(progress[1]));    		
+        	}
+    		else
+    		{
+    			mostrarDialogs(progress_circle_type);
+    		}
     	}
 
     }
@@ -140,8 +170,9 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
     public void onPostExecute(String ignore) 
     {
     	//dismiss the dialog after the file was downloaded
-		if(pDialog!=null){
-			if(dialogType == 0)
+		if(pDialog!=null)
+		{
+			if(dialogType == progress_circle_type)
 			{
 				dismissDialog(progress_circle_type);
 			}
@@ -163,8 +194,21 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
     }
     
     
-    private void dale()
-    {
+    @Override
+    protected void onPause() {
+    	// TODO Auto-generated method stub
+    	super.onPause();
+    	if(pDialog!=null)
+		{
+			if(dialogType == progress_circle_type)
+			{
+				dismissDialog(progress_circle_type);
+			}
+			else
+			{
+				dismissDialog(progress_bar_type);
+			}
+		}
     	
     }
  
