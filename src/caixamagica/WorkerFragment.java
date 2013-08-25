@@ -91,7 +91,8 @@ public class WorkerFragment extends Fragment {
 
     	@Override
         protected void onPreExecute() {
-          if (mCallbacks != null) {
+          super.onPreExecute();
+    		if (mCallbacks != null) {
             mCallbacks.onPreExecute();
           }
         }

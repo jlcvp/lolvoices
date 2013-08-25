@@ -34,6 +34,9 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
 		FragmentManager fm = getFragmentManager();
 		myWorker = (WorkerFragment) fm.findFragmentByTag("task");
 		
+		dialogType=0;
+		showDialog(progress_circle_type);
+		
 		if(myWorker == null)
 		{
 			myWorker = new WorkerFragment();
@@ -94,6 +97,7 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
     @Override
     public void onPreExecute() 
     {
+    	Log.i("onPreExecute","entrou");
     	dialogType = 0;            
 		showDialog(progress_circle_type);
     	
@@ -104,8 +108,7 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
     	// setting progress percentage
     	if(progress[0].equals("progresso"))
     	{
-    		pDialog.setProgress(Integer.parseInt(progress[1]));
-    		Log.i("Progresso: ",progress[1]);
+    		pDialog.setProgress(Integer.parseInt(progress[1]));    		
     	}
     	else 
     	{
