@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Currency;
 
 import database.RepositorioScripts;
 
@@ -32,12 +33,18 @@ public class WorkerFragment extends DialogFragment {
 	DownloadFileFromURL downloader;
 	int currentDialogType;
 	ProgressDialog pDialog;
-	int dialogType;
+	
 	
 	public static final int progress_bar_type = 0;
     public static final int progress_circle_type = 1;
 	
-	
+    public static WorkerFragment newInstance(int title) {
+		WorkerFragment frag = new WorkerFragment();
+		Bundle args = new Bundle();
+		args.putInt("ProgressStyle", ProgressDialog.STYLE_HORIZONTAL);
+		frag.setArguments(args);
+		return frag;
+	}
 	
 	public static interface TaskCallbacks {
 	    void onPostExecute(String str);
@@ -99,8 +106,8 @@ public class WorkerFragment extends DialogFragment {
        
 	ProgressDialog pDialog = new ProgressDialog(getActivity());
 	
-	switch (id.getInt("pType")) {
-       case progress_bar_type: // we set this to 0
+	switch (id.getInt("ProgressStyle")) {
+       case ProgressDialog.STYLE_HORIZONTAL: // we set this to 0
     	   
     	   pDialog.setMessage("Baixando arquivos de mídia");
            pDialog.setIndeterminate(false);
@@ -108,17 +115,17 @@ public class WorkerFragment extends DialogFragment {
            pDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
            pDialog.setCancelable(false);
 //           pDialog.show();
-           dialogType=progress_bar_type;
+           currentDialogType=progress_bar_type;
            return pDialog;
            
-       case progress_circle_type:
+       case ProgressDialog.STYLE_SPINNER:
     	   
            pDialog.setMessage("Verificando consistência de arquivos...");
            pDialog.setIndeterminate(true);
            pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
            pDialog.setCancelable(true);
-           
-           dialogType=progress_circle_type;
+           pDialog.show();
+           currentDialogType=progress_circle_type;
            return pDialog;
            
            
@@ -136,8 +143,12 @@ public class WorkerFragment extends DialogFragment {
     
     
     
-    
-    
+    public void changeDialogType(){
+    	
+    	pDialog.setIndeterminate(true);
+    	pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+    	
+    }
     
     
     /**
@@ -246,14 +257,11 @@ public class WorkerFragment extends DialogFragment {
         		
         		if(dialogType == progress_bar_type)
         		{	
-        			pDialog.setProgress(Integer.parseInt(progress[1]));
-        			  		
+        			pDialog.setProgress(Integer.parseInt(progress[1]));        			  		
         		}
         		else if(dialogType == progress_circle_type) 
         		{
-        			pDialog.dismiss();
-        			
-        			    			
+        			changeDialogType();
         		}
         	}
         	else

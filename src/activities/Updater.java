@@ -16,7 +16,7 @@ import com.lolchampionsvoices.R;
 public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
 	private WorkerFragment myWorker;
 	// Progress Dialog
-    private ProgressDialog pDialog;
+    
     ImageView my_image;
     boolean isUpdating;
     
@@ -37,8 +37,7 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_updater);
-		dialogType = -1;
-		pDialog=null;
+		
 //		ImageView iv = (ImageView) findViewById(R.id.updaterImg);
 //		iv.setImageResource(R.drawable.lolbg);
 		debugProgress = 0;
@@ -46,10 +45,9 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
 		myWorker = (WorkerFragment) fm.findFragmentByTag("task");
 		if(myWorker == null)
 		{
-			myWorker = new WorkerFragment();
-			fm.beginTransaction().add(myWorker, "task").commit();
-			myWorker.setarFragment(getApplicationContext(), getExternalFilesDir(null));
-					
+			myWorker = WorkerFragment.newInstance(1);
+			//fm.beginTransaction().add(myWorker, "task").commit();
+			myWorker.setarFragment(getApplicationContext(), getExternalFilesDir(null));							
 		}
 		myWorker.show(fm, "task");
 		
@@ -163,24 +161,9 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
     public void onPostExecute(String ignore) 
     {
     	//dismiss the dialog after the file was downloaded
-		if(pDialog!=null)
-		{
-			if(dialogType == progress_circle_type)
-			{
-				dismissDialog(progress_circle_type);
-			}
-			else
-			{
-				dismissDialog(progress_bar_type);
-			}
-		}
-
+		myWorker.dismiss();
 		/*AQUI É ONDE A MÁGICA COMEÇA! */
-		FragmentManager fm = getFragmentManager();
-		if(fm.findFragmentByTag("task")!=null)
-		{
-			fm.beginTransaction().remove(fm.findFragmentByTag("task"));
-		}
+		
 			Intent intent = new Intent(Updater.this, ChampionsGrid.class);
 			startActivity(intent);
 			finish();
