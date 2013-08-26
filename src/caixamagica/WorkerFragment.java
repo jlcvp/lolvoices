@@ -39,6 +39,7 @@ public class WorkerFragment extends Fragment {
 	    void onProgressUpdate(String... progress);
 	    void onCancelled();
 	    void onPostExecute(String str);
+	    void updateBarrinha(int percentual);
 	  }
 	/**
 	   * Hold a reference to the parent Activity so we can report the
@@ -152,7 +153,8 @@ public class WorkerFragment extends Fragment {
     				Log.i("UpdaterActivity","Arquivo local não existe ou possui" +
     						"um tamanho diferente do esperado, baixando de novo");
 
-    				publishProgress("baixando");	
+    				publishProgress("baixando");
+    				currentDialogType=progress_bar_type;
     				//onProgressUpdate("baixando");
     				
     				OutputStream output = new FileOutputStream(localFile);
@@ -165,8 +167,8 @@ public class WorkerFragment extends Fragment {
     					total += count;
     					// publishing the progress....
     					// After this onProgressUpdate will be called
-    					publishProgress("progresso",""+(int)((total*100)/lengthOfRemoteFile));
-
+    					//publishProgress("progresso",""+(int)((total*100)/lengthOfRemoteFile));
+    					updateBarrinha((int)((total*100)/lengthOfRemoteFile));
     					// writing data to file
     					output.write(data, 0, count);
     				}
@@ -189,6 +191,13 @@ public class WorkerFragment extends Fragment {
 
 
     		return null;
+    	}
+    	
+    	public void updateBarrinha(int percent)
+    	{
+    		if(mCallbacks!=null){
+    			mCallbacks.updateBarrinha(percent);
+    		}
     	}
 
     	/**

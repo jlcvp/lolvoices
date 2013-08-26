@@ -76,6 +76,8 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
 			}
 		}
 	}
+	
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -118,6 +120,32 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
        
     }
     
+    int perc;
+    @Override
+    public void updateBarrinha(int percentual) 
+    {
+    	if(perc!=percentual)
+    	{
+    		perc=percentual;
+    		Log.i("updateBarrinha", "perc ="+perc);
+    	}
+    	
+    	if(pDialog!=null)
+    	{
+    		
+    		if(dialogType == progress_bar_type)
+    		{
+    			
+//    			if(Integer.parseInt(progress[1])!=debugProgress)
+//    			{
+//    				//debugProgress = Integer.parseInt(progress[1]);
+//    				Log.i("onProgressUpdate","debugProgress = "+debugProgress);
+//    			}
+    			pDialog.setProgress(percentual);    		
+    		}
+    	}
+    }
+    
     @Override
     public void onPreExecute() 
     {
@@ -131,19 +159,21 @@ public class Updater extends Activity implements WorkerFragment.TaskCallbacks {
     	if(pDialog!=null)
     	{
     		
-    		if(dialogType == progress_bar_type)
-    		{
-    			
-    			if(Integer.parseInt(progress[1])!=debugProgress)
-    			{
-    				debugProgress = Integer.parseInt(progress[1]);
-    				Log.i("onProgressUpdate","debugProgress = "+debugProgress);
-    			}
-    			pDialog.setProgress(Integer.parseInt(progress[1]));    		
-    		}
-    		else if(dialogType == progress_circle_type) 
+//    		if(dialogType == progress_bar_type)
+//    		{
+//    			
+//    			if(Integer.parseInt(progress[1])!=debugProgress)
+//    			{
+//    				debugProgress = Integer.parseInt(progress[1]);
+//    				Log.i("onProgressUpdate","debugProgress = "+debugProgress);
+//    			}
+//    			pDialog.setProgress(Integer.parseInt(progress[1]));    		
+//    		}
+//    		else 
+    		if(dialogType == progress_circle_type) 
     		{
     			dismissDialog(progress_circle_type);
+    			
     			showDialog(progress_bar_type);    			
     		}
     	}
